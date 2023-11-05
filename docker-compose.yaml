@@ -3,13 +3,13 @@ services:
 
 # Angular Application
   angular-app:
-    image: angular-app
+    image: malbouz/angular-app:1.0.0
     ports:
       - "0.0.0.0:4200:80"
       
   # Spring Boot Application
   spring-boot-app:
-    image: springboot-app
+    image: malbouz/springboot-app:1.0.0
     ports:
       - "0.0.0.0:8081:8081"
     environment:
