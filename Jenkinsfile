@@ -5,7 +5,7 @@ pipeline {
         nodejs 'node'
     }
     environment {
-        DOCKER_REGISTRY = 'your-docker-registry'
+        DOCKER_REGISTRY = 'lamkadam'
         DOCKER_IMAGE_TAG = 'latest'
     }
     stages {
