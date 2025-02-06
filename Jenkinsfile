@@ -1,6 +1,6 @@
 pipeline {
-    agent any 
-    tools { 
+    agent any
+    tools {
         maven 'maven'
         nodejs 'node'
     }
@@ -12,14 +12,14 @@ pipeline {
         }
         stage ("Clone repo"){
             steps {
-                sh "git clone https://github.com/MaBouz/springboot-angular-mysql-docker.git"
+                sh "git clone https://github.com/LamkadamHamza/springboot-angular-mysql-docker.git"
             }
         }
         stage ("Generate frontend image") {
             steps {
                  dir("springboot-angular-mysql-docker/angular-app"){
                     sh "docker build -t angular-app ."
-                }                
+                }
             }
         }
         stage ("Generate backend image") {
@@ -27,14 +27,14 @@ pipeline {
                    dir("springboot-angular-mysql-docker/springboot/app"){
                       sh "mvn clean install"
                       sh "docker build -t springboot-app ."
-                  }                
+                  }
               }
           }
         stage ("Run docker compose") {
             steps {
                  dir("springboot-angular-mysql-docker"){
                     sh " docker compose up -d"
-                }                
+                }
             }
         }
     }

@@ -6,7 +6,7 @@ services:
     image: malbouz/angular-app:1.0.0
     ports:
       - "0.0.0.0:4200:80"
-      
+
   # Spring Boot Application
   spring-boot-app:
     image: malbouz/springboot-app:1.0.0
@@ -15,7 +15,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/demo
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_PASSWORD=Hl@1234567
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_MVC_CORS_MAPPING=/**
@@ -31,11 +31,11 @@ services:
     environment:
       MYSQL_DATABASE: 'demo'
       MYSQL_ROOT_USERNAME: 'root'
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'Hl@1234567'
     ports:
-      - '0.0.0.0:3306:3306'
+      - '0.0.0.0:3309:3306'
     volumes:
       - demo:/var/lib/mysql
-  # liste des volumes 
+  # liste des volumes
 volumes:
   demo:
