@@ -4,10 +4,14 @@ pipeline {
         maven 'maven'
         nodejs 'node'
     }
+    environment {
+        DOCKER_HUB_USER = 'lamkadam'
+    }
     stages {
         stage ("Clean up") {
             steps {
                 deleteDir()
+                sh "docker system prune -af"  
             }
         }
         stage ("Clone repo") {
@@ -18,8 +22,8 @@ pipeline {
         stage ("Generate frontend image") {
             steps {
                 dir("springboot-angular-mysql-docker/angular-app") {
-                    sh "docker build -t lamkadam/angular-app:1.0.0 ."
-                    sh "docker tag lamkadam/angular-app:1.0.0 lamkadam/angular-app:latest"
+                    sh "docker build -t ${DOCKER_HUB_USER}/angular-app:1.0.0 ."
+                    sh "docker tag ${DOCKER_HUB_USER}/angular-app:1.0.0 ${DOCKER_HUB_USER}/angular-app:latest"
                 }                
             }
         }
@@ -27,16 +31,20 @@ pipeline {
             steps {
                 dir("springboot-angular-mysql-docker/springboot/app") {
                     sh "mvn clean install"
-                    sh "docker build -t lamkadam/springboot-app:1.0.0 ."
-                    sh "docker tag lamkadam/springboot-app:1.0.0 lamkadam/springboot-app:latest"
+                    sh "docker build -t ${DOCKER_HUB_USER}/springboot-app:1.0.0 ."
+                    sh "docker tag ${DOCKER_HUB_USER}/springboot-app:1.0.0 ${DOCKER_HUB_USER}/springboot-app:latest"
                 }                
             }
         }
         stage ("Push images to Docker Hub") {
             steps {
-                sh "docker login -u lamkadam -p 'TON_MOT_DE_PASSE'"
-                sh "docker push lamkadam/angular-app:1.0.0"
-                sh "docker push lamkadam/springboot-app:1.0.0"
+                withCredentials([string(credentialsId: 'd76c8fb4-8c36-444e-8c3b-16d2b8d20975', variable: 'DOCKER_PASSWORD')]) {
+                    sh "echo \$DOCKER_PASSWORD | docker login -u ${DOCKER_HUB_USER} --password-stdin"
+                    sh "docker push ${DOCKER_HUB_USER}/angular-app:1.0.0"
+                    sh "docker push ${DOCKER_HUB_USER}/angular-app:latest"
+                    sh "docker push ${DOCKER_HUB_USER}/springboot-app:1.0.0"
+                    sh "docker push ${DOCKER_HUB_USER}/springboot-app:latest"
+                }
             }
         }
         stage ("Run docker compose") {
