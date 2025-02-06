@@ -38,7 +38,7 @@ pipeline {
         }
         stage ("Push images to Docker Hub") {
             steps {
-               withCredentials([usernamePassword(credentialsId: 'd76c8fb4-8c36-444e-8c3b-16d2b8d20975', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+               withCredentials([usernamePassword(credentialsId: 'lamkadam', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
     sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_HUB_USER --password-stdin"
     sh "docker push \$DOCKER_HUB_USER/angular-app:1.0.0"
     sh "docker push \$DOCKER_HUB_USER/angular-app:latest"
