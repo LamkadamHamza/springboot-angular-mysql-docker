@@ -2,7 +2,6 @@ FROM node:18.17.1-alpine AS build
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
 RUN npm install -g @angular/cli
 COPY . .
 RUN npm run build --force
